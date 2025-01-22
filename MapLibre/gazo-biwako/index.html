@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MapLibreで琵琶湖の画像を表示</title>
+    <!-- MapLibreGLJSを読み込み -->
+    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+    <link
+      href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="map" style="height: 80vh"></div>
+
+    <script>
+      const map = new maplibregl.Map({
+        container: "map",
+        center: [136.0881, 35.2406],
+        zoom: 9,
+        style: {
+          version: 8,
+          sources: {
+            osm: {
+              type: "raster",
+              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+              tileSize: 256,
+              maxzoom: 19,
+              attribution:
+                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            },
+            lakebiwa: {
+              type: "image",
+              url: "./lakebiwa.jpg",
+              coordinates: [
+                [135.596438368833077, 35.5498836025608185], // 左上の経度緯度
+                [136.5823028110609414, 35.5498836025608185], // 右上の経度緯度
+                [136.5823028110609414, 34.9281476305997742], // 右下の経度緯度
+                [135.596438368833077, 34.9281476305997742], // 左下の経度緯度
+              ],
+            },
+          },
+          layers: [
+            {
+              id: "osm-layer",
+              source: "osm",
+              type: "raster",
+            },
+            {
+              id: "lakebiwa-layer",
+              source: "lakebiwa",
+              type: "raster",
+              paint: { "raster-opacity": 0.7 },
+            },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>
